@@ -1,0 +1,98 @@
+template: Hello, %s!
+
+defaultName: ${DW_DEFAULT_NAME:-Stranger}
+
+# Catalog User
+#login: admin
+
+# Catalog  password
+#password: welcome1
+
+# Database settings.
+database:
+
+  # the name of your JDBC driver
+  driverClass: com.mysql.cj.jdbc.Driver
+
+  # the username
+  user: apidev
+
+  # the password
+  password: apidev
+
+  # the JDBC URL
+  url: jdbc:mysql://192.168.99.100:32768/catalog_db
+
+  # the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 1s
+
+  # the minimum number of connections to keep open
+  minSize: 8
+
+  # the maximum number of connections to keep open
+  maxSize: 32
+
+  # whether or not idle connections should be validated
+  checkConnectionWhileIdle: false
+
+server:
+  rootPath: /api/*
+  applicationConnectors:
+    - type: http
+      port: 8080
+#    - type: https
+#      port: 8443
+#      keyStorePath: example.keystore
+#      keyStorePassword: example
+#      validateCerts: false
+
+  adminConnectors:
+     - type: http
+       port: 8081
+#    - type: https
+#      port: 8444
+#      keyStorePath: example.keystore
+#      keyStorePassword: example
+#      validateCerts: false
+
+##############################
+## LOGGING config
+##############################
+logging:
+
+    # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL
+    level: ALL
+
+    # Logger-specific levels.
+    loggers:
+
+      # Overrides the level of com.example.dw.Thing and sets it to DEBUG.
+      #"dev.sol.catalog.auth.ldap": DEBUG
+      dev.sol.catalog.entities:
+        level: DEBUG
+
+      # Redirects SQL logs to a separate file
+      org.hibernate.SQL:
+        level: DEBUG
+
+    appenders:
+      # Log warnings and errors to stderr
+      - type: console
+        threshold: WARN
+        target: stderr
+
+      # Log info, warnings and errors to our apps' main log.
+      # Rolled over daily and retained for 5 days.
+      - type: file
+        threshold: INFO
+        currentLogFilename: ./logs/api-catalog.log
+        archivedLogFilenamePattern: ./logs/api-catalog-%d.log.gz
+        archivedFileCount: 5
+
+      # Log debug messages, info, warnings and errors to our apps' debug log.
+      # Rolled over hourly and retained for 6 hours
+      - type: file
+        threshold: DEBUG
+        currentLogFilename: ./logs/debug.log
+        archivedLogFilenamePattern: ./logs/debug-%d{yyyy-MM-dd-hh}.log.gz
+        archivedFileCount: 6
