@@ -1,5 +1,8 @@
 package dev.sol.catalog.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -35,6 +38,9 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
+    //@JsonBackReference
+    //@JsonProperty
+    //@JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="book")
     private Set<Author> authors;
 
@@ -70,7 +76,6 @@ public class Book {
         this.title = title;
     }
 
-    @JsonProperty
     public Set<Author> getAuthors() {
         return authors;
     }

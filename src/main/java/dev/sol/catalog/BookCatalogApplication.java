@@ -13,6 +13,8 @@ import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+import java.util.Set;
+
 /**
  * The Application class pulls together the various bundles
  * and commands which provide basic functionality.
@@ -23,7 +25,7 @@ public class BookCatalogApplication
         extends Application<BookCatalogConfiguration> {
 
     private final HibernateBundle<BookCatalogConfiguration> hibernate =
-            new HibernateBundle<BookCatalogConfiguration>(Author.class, Book.class) {
+            new HibernateBundle<BookCatalogConfiguration>(Author.class, Book.class, Set.class) {
 
         //@Override
         public DataSourceFactory getDataSourceFactory(BookCatalogConfiguration configuration) {
