@@ -1,7 +1,6 @@
 package dev.sol.catalog.entities;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -29,8 +28,9 @@ public class Author {
     @Column(name = "name", nullable = false)
     private String name;
 
-    //@ManyToMany
-    //private List<Book> books;
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="book_id", nullable=false)
+    private Book book;
 
     public Author() {
     }
@@ -53,6 +53,16 @@ public class Author {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Book getBook()
+    {
+        return book;
+    }
+
+    public void setBook(Book book)
+    {
+        this.book = book;
     }
 
     @Override

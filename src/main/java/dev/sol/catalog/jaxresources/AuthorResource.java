@@ -53,7 +53,7 @@ public class AuthorResource {
 
     @POST
     @UnitOfWork
-    public Author createPerson(Author author) {
+    public Author createAuthor(Author author) {
         return authorDAO.create(author);
     }
 

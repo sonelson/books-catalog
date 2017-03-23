@@ -1,8 +1,11 @@
 package dev.sol.catalog.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * JPA entity class to represent Book object in the database.
@@ -15,7 +18,7 @@ import java.util.Objects;
 @NamedQueries(
         {
                 @NamedQuery(
-                        name = "dev.sol.catalog.entity.Book.findAll",
+                        name = "dev.sol.catalog.entities.Book.findAll",
                         query = "SELECT b FROM Book b"
                 )
         }
@@ -32,18 +35,15 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    private Author author;
-
-    @ManyToOne
-    private List<Author> authors;
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="book")
+    private Set<Author> authors;
 
     public Book() {
     }
 
-    public Book(String isbn, String title, Author author) {
+    public Book(String isbn, String title) {
         setIsbn(isbn);
         setTitle(title);
-        setAuthor(author);
     }
 
     public long getId() {
@@ -70,12 +70,13 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return title;
+    @JsonProperty
+    public Set<Author> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 
     @Override

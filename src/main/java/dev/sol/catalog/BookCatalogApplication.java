@@ -1,9 +1,12 @@
 package dev.sol.catalog;
 
 import dev.sol.catalog.dao.AuthorDAO;
+import dev.sol.catalog.dao.BookDAO;
 import dev.sol.catalog.entities.Author;
+import dev.sol.catalog.entities.Book;
 import dev.sol.catalog.health.TemplateHealthCheck;
 import dev.sol.catalog.jaxresources.AuthorResource;
+import dev.sol.catalog.jaxresources.BookResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
@@ -20,7 +23,7 @@ public class BookCatalogApplication
         extends Application<BookCatalogConfiguration> {
 
     private final HibernateBundle<BookCatalogConfiguration> hibernate =
-            new HibernateBundle<BookCatalogConfiguration>(Author.class) {
+            new HibernateBundle<BookCatalogConfiguration>(Author.class, Book.class) {
 
         //@Override
         public DataSourceFactory getDataSourceFactory(BookCatalogConfiguration configuration) {
@@ -48,9 +51,11 @@ public class BookCatalogApplication
                 new TemplateHealthCheck(bookCatalogConfiguration.getTemplate());
 
         final AuthorDAO authorDAO = new AuthorDAO(hibernate.getSessionFactory());
+        final BookDAO bookDAO = new BookDAO(hibernate.getSessionFactory());
 
         environment.healthChecks().register("template", healthCheck);
         environment.jersey().register(new AuthorResource(authorDAO));
+        environment.jersey().register(new BookResource(bookDAO));
     }
 
 
