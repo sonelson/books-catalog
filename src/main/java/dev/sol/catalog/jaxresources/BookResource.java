@@ -6,8 +6,10 @@ import dev.sol.catalog.entities.Book;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -30,20 +32,6 @@ public class BookResource {
      */
     public BookResource(BookDAO bookDAO) {
         this.bookDAO = bookDAO;
-    }
-
-    @POST
-    @UnitOfWork
-    public Book createBook(Book book) {
-
-        Set<Author> authorSet = book.getAuthors();
-
-        for (Author author: authorSet) {
-            //System.out.println("Adding AUTHOR TO BOOK =>"+ author.getName());
-            author.setBook(book);
-        }
-
-        return bookDAO.create(book);
     }
 
     /**
@@ -76,6 +64,48 @@ public class BookResource {
     @UnitOfWork
     public Optional<Book> findById(@PathParam("id") LongParam id) {
         return bookDAO.findById(id.get());
+    }
+
+    @POST
+    @UnitOfWork
+    public Book createBook(Book book) {
+
+        Set<Author> authorSet = book.getAuthors();
+
+        for (Author author: authorSet) {
+            //System.out.println("Adding AUTHOR TO BOOK =>"+ author.getName());
+            author.setBook(book);
+        }
+
+        return bookDAO.create(book);
+    }
+
+    @PUT
+    @Path("/{id}")
+    @UnitOfWork
+    public Book updateBook(@PathParam("id") LongParam id, @Valid Book book) {
+        book.setId(id.get());
+
+        Set<Author> authorSet = book.getAuthors();
+        for (Author author: authorSet) {
+            author.setBook(book);
+       }
+
+        bookDAO.update(book);
+        return book;
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @UnitOfWork
+    public Response deleteBook(@PathParam("id") LongParam id) {
+        Optional<Book> book = bookDAO.findById(id.get());
+        if(book.isPresent()) {
+            bookDAO.delete(book.get());
+            return Response.ok().build();
+        }
+
+        return Response.noContent().build();
     }
 
 }

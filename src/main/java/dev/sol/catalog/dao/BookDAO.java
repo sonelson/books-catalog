@@ -1,6 +1,5 @@
 package dev.sol.catalog.dao;
 
-import dev.sol.catalog.entities.Author;
 import dev.sol.catalog.entities.Book;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
@@ -18,18 +17,14 @@ public class BookDAO extends AbstractDAO<Book> {
     }
 
     /**
-     * Method looks for an author by id.
+     * Method looks for a book by id.
      *
-     * @param id the id of an book we are looking for.
+     * @param id the id of an book searched for
      * @return Optional containing the book or an empty Optional
      *
      */
     public Optional<Book> findById(long id) {
         return Optional.ofNullable(get(id));
-    }
-
-    public Book create(Book book) {
-        return persist(book);
     }
 
     /**
@@ -58,4 +53,31 @@ public class BookDAO extends AbstractDAO<Book> {
                         .setParameter("title", builder.toString())
         );
     }
+
+    /**
+     * Method creates a new book record
+     *
+     * @return Book
+     */
+    public Book create(Book book) {
+        return persist(book);
+    }
+
+    /**
+     * Method updates existing book record
+     *
+     */
+    public void update(Book book) {
+        currentSession().saveOrUpdate(book);
+    }
+
+
+    /**
+     * Method deletes existing book record
+     *
+     */
+    public void delete(Book book) {
+        currentSession().delete(book);
+    }
+
 }

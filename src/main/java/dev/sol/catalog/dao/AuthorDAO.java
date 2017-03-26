@@ -29,9 +29,7 @@ public class AuthorDAO extends AbstractDAO<Author> {
         return Optional.ofNullable(get(id));
     }
 
-    public Author create(Author author) {
-        return persist(author);
-    }
+
 
     /**
      * Method returns all authors stored in the database.
@@ -40,5 +38,17 @@ public class AuthorDAO extends AbstractDAO<Author> {
      */
     public List<Author> findAll() {
         return list(namedQuery("dev.sol.catalog.entities.Author.findAll"));
+    }
+
+    public Author create(Author author) {
+        return persist(author);
+    }
+
+    public void update(Author author) {
+        currentSession().saveOrUpdate(author);
+    }
+
+    public void delete(Author author) {
+        currentSession().delete(author);
     }
 }
