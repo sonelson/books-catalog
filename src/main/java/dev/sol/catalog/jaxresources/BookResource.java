@@ -1,11 +1,14 @@
 package dev.sol.catalog.jaxresources;
 
+import dev.sol.catalog.core.User;
 import dev.sol.catalog.dao.BookDAO;
 import dev.sol.catalog.entities.Author;
 import dev.sol.catalog.entities.Book;
+import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -62,7 +65,8 @@ public class BookResource {
     @GET
     @Path("/{id}")
     @UnitOfWork
-    public Optional<Book> findById(@PathParam("id") LongParam id) {
+    public Optional<Book> findById(@PathParam("id") LongParam id,
+                                   @Auth User user) {
         return bookDAO.findById(id.get());
     }
 
@@ -95,14 +99,17 @@ public class BookResource {
         return book;
     }
 
+    @RolesAllowed("ADMIN")
     @DELETE
     @Path("/{id}")
     @UnitOfWork
-    public Response deleteBook(@PathParam("id") LongParam id) {
+    public Response deleteBook(@PathParam("id") LongParam id,
+                               @Auth User user) {
         Optional<Book> book = bookDAO.findById(id.get());
         if(book.isPresent()) {
             bookDAO.delete(book.get());
-            return Response.ok().build();
+            return Response.ok("{\"Deleted book id \": \""
+                    + id + "\"}").build();
         }
 
         return Response.noContent().build();

@@ -3,10 +3,10 @@ template: Hello, %s!
 defaultName: ${DW_DEFAULT_NAME:-Stranger}
 
 # Catalog User
-#login: admin
+#login: apiuser
 
 # Catalog  password
-#password: welcome1
+#password: secret
 
 # Database settings.
 database:
@@ -49,11 +49,7 @@ server:
   adminConnectors:
      - type: http
        port: 8081
-#    - type: https
-#      port: 8444
-#      keyStorePath: example.keystore
-#      keyStorePassword: example
-#      validateCerts: false
+
 
 ##############################
 ## LOGGING config
@@ -67,7 +63,6 @@ logging:
     loggers:
 
       # Overrides the level of com.example.dw.Thing and sets it to DEBUG.
-      #"dev.sol.catalog.auth.ldap": DEBUG
       dev.sol.catalog.entities:
         level: DEBUG
 

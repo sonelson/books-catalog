@@ -1,5 +1,8 @@
 package dev.sol.catalog;
 
+import dev.sol.catalog.auth.BasicAuthenticator;
+import dev.sol.catalog.auth.BasicAuthorizer;
+import dev.sol.catalog.core.User;
 import dev.sol.catalog.dao.AuthorDAO;
 import dev.sol.catalog.dao.BookDAO;
 import dev.sol.catalog.entities.Author;
@@ -8,10 +11,15 @@ import dev.sol.catalog.health.TemplateHealthCheck;
 import dev.sol.catalog.jaxresources.AuthorResource;
 import dev.sol.catalog.jaxresources.BookResource;
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthFilter;
+import io.dropwizard.auth.AuthValueFactoryProvider;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 import java.util.Set;
 
@@ -54,6 +62,16 @@ public class BookCatalogApplication
 
         final AuthorDAO authorDAO = new AuthorDAO(hibernate.getSessionFactory());
         final BookDAO bookDAO = new BookDAO(hibernate.getSessionFactory());
+
+        AuthFilter basicAuthFilter = new BasicCredentialAuthFilter.Builder<User>()
+                .setAuthenticator(new BasicAuthenticator())
+                .setAuthorizer(new BasicAuthorizer())
+                .setPrefix("Basic")
+                .buildAuthFilter();
+
+        environment.jersey().register(new AuthDynamicFeature(basicAuthFilter));
+        environment.jersey().register(RolesAllowedDynamicFeature.class);
+        environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
 
         environment.healthChecks().register("template", healthCheck);
         environment.jersey().register(new AuthorResource(authorDAO));
