@@ -54,6 +54,24 @@ public class BookDAO extends AbstractDAO<Book> {
         );
     }
 
+
+    /**
+     * Method returns all books whose author contains the passed
+     * parameter as a substring.
+     *
+     * @param author query parameter
+     * @return list of all books filtered by author
+     */
+    public List<Book> findBookByAuthor(String author) {
+
+        StringBuilder builder = new StringBuilder("%");
+        builder.append(author).append("%");
+        return list(
+                namedQuery("dev.sol.catalog.entities.Book.findBooksByAuthor")
+                        .setParameter("author", builder.toString())
+        );
+    }
+
     /**
      * Method creates a new book record
      *

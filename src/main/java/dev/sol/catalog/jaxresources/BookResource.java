@@ -38,7 +38,7 @@ public class BookResource {
     }
 
     /**
-     * List books whose title contains the passed parameter as a substring.
+     * List books filtered by the passed query parameter as a substring.
      * Returns all books stored in the catalog database if no argument is
      * passed.
      *
@@ -48,10 +48,16 @@ public class BookResource {
      */
     @GET
     @UnitOfWork
-    public List<Book> listBooks(@QueryParam("title") Optional<String> title) {
+    public List<Book> listBooks(@QueryParam("title") Optional<String> title,
+                                @QueryParam("author") Optional<String> author) {
         if (title.isPresent()) {
             return bookDAO.findByTitle(title.get());
         }
+
+        if (author.isPresent()) {
+            return bookDAO.findBookByAuthor(author.get());
+        }
+
         return bookDAO.findAll();
     }
 

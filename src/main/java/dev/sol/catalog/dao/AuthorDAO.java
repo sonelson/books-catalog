@@ -1,6 +1,7 @@
 package dev.sol.catalog.dao;
 
 import dev.sol.catalog.entities.Author;
+import dev.sol.catalog.entities.Book;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
 

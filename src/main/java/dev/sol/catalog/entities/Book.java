@@ -27,7 +27,12 @@ import java.util.Set;
                 @NamedQuery(
                         name = "dev.sol.catalog.entities.Book.findByTitle",
                         query = "SELECT b FROM Book b " +
-                                "where b.title like :title"
+                                "WHERE b.title LIKE :title"
+                ),
+                @NamedQuery(
+                        name = "dev.sol.catalog.entities.Book.findBooksByAuthor",
+                        query = "SELECT b FROM Book b JOIN b.authors a " +
+                                "WHERE a.fullName LIKE :author"
                 )
         }
 )
@@ -35,6 +40,7 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
     @Column(name = "isbn", nullable = false)
@@ -44,8 +50,6 @@ public class Book {
     private String title;
 
     //@JsonBackReference
-    //@JsonProperty
-    //@JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="book")
     private Set<Author> authors;
 

@@ -56,7 +56,7 @@ class AuthorDAOTest {
                 () -> authorDAO.create(new Author("Tom")));
 
         assertNotNull (tom.getId());
-        assertEquals("Tom", tom.getName());
+        assertEquals("Tom", tom.getFullName());
     }
 
     @Test

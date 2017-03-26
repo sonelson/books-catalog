@@ -30,12 +30,11 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "full_name", nullable = false)
+    private String fullName;
 
     //@JsonIgnore
     //@JsonManagedReference
-    //@JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name="book_id", nullable=false)
     private Book book;
@@ -45,7 +44,7 @@ public class Author {
     }
 
     public Author(String name) {
-        setName(name);
+        setFullName(name);
     }
 
     public long getId() {
@@ -56,12 +55,12 @@ public class Author {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String name) {
+        this.fullName = name;
     }
 
 
@@ -88,12 +87,12 @@ public class Author {
         final Author that = (Author) o;
 
         return Objects.equals(this.id, that.id) &&
-                Objects.equals(this.name, that.name);
+                Objects.equals(this.fullName, that.fullName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, fullName);
     }
 
 }
