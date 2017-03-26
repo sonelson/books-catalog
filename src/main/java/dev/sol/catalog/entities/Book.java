@@ -23,6 +23,11 @@ import java.util.Set;
                 @NamedQuery(
                         name = "dev.sol.catalog.entities.Book.findAll",
                         query = "SELECT b FROM Book b"
+                ),
+                @NamedQuery(
+                        name = "dev.sol.catalog.entities.Book.findByTitle",
+                        query = "SELECT b FROM Book b " +
+                                "where b.title like :title"
                 )
         }
 )

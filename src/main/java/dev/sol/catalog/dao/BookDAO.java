@@ -38,6 +38,24 @@ public class BookDAO extends AbstractDAO<Book> {
      * @return list of all books
      */
     public List<Book> findAll() {
+
         return list(namedQuery("dev.sol.catalog.entities.Book.findAll"));
+    }
+
+    /**
+     * Method returns all books whose title contains the passed
+     * parameter as a substring.
+     *
+     * @param title query parameter
+     * @return list of all books filtered by matching title
+     */
+    public List<Book> findByTitle(String title) {
+
+        StringBuilder builder = new StringBuilder("%");
+        builder.append(title).append("%");
+        return list(
+                namedQuery("dev.sol.catalog.entities.Book.findByTitle")
+                        .setParameter("title", builder.toString())
+        );
     }
 }

@@ -4,16 +4,16 @@ import dev.sol.catalog.dao.BookDAO;
 import dev.sol.catalog.entities.Author;
 import dev.sol.catalog.entities.Book;
 import io.dropwizard.hibernate.UnitOfWork;
+import io.dropwizard.jersey.params.LongParam;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
+ * API resource representation for Book
  *
  * @author solo
  */
@@ -46,9 +46,36 @@ public class BookResource {
         return bookDAO.create(book);
     }
 
+    /**
+     * List books whose title contains the passed parameter as a substring.
+     * Returns all books stored in the catalog database if no argument is
+     * passed.
+     *
+     * @param title query parameter
+     * @return list of books
+     *
+     */
     @GET
     @UnitOfWork
-    public List<Book> listBooks() {
+    public List<Book> listBooks(@QueryParam("title") Optional<String> title) {
+        if (title.isPresent()) {
+            return bookDAO.findByTitle(title.get());
+        }
         return bookDAO.findAll();
     }
+
+    /**
+     * Method fetches book by id
+     *
+     * @param id the id of the book passed as a path parameter
+     * @return Optional containing the found book or an empty Optional
+     * otherwise.
+     */
+    @GET
+    @Path("/{id}")
+    @UnitOfWork
+    public Optional<Book> findById(@PathParam("id") LongParam id) {
+        return bookDAO.findById(id.get());
+    }
+
 }
