@@ -24,17 +24,17 @@ The sample dropwizard implementation is comprised of the following modules:
 
 # Running the API Service
 
-To package the application into a fat JAR, run the following maven command from the project root dropwizard directory.:
+To package application into a fat JAR, run the following maven command from the dropwizard project root directory:
 
     $ mvn clean install
 
-A successful build output will produce the packaged JAR (located under <project-work-dir>/books-catalog/target/books-api-1.0-SNAPSHOT.jar)
+A successful build output will produce the fat JAR (located under project-root/books-catalog/target/books-api-1.0-SNAPSHOT.jar)
 
-To run the server
+To run the server:
 
     $ java -jar target/books-api-1.0-SNAPSHOT.jar server books-catalog.yml
 
-To hit the API endpoint
+To hit the API endpoint:
 
     http://localhost:8080/api/book
 
