@@ -44,7 +44,7 @@ public class BookCatalogApplication
 
     @Override
     public String getName() {
-        return "book-catalog";
+        return "book-api";
     }
 
     @Override
