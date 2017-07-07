@@ -21,7 +21,7 @@ database:
   password: apidev
 
   # the JDBC URL
-  url: jdbc:mysql://192.168.99.100:32769/catalog_db
+  url: jdbc:mysql://192.168.99.100:32768/catalog_db
 
   # the maximum amount of time to wait on an empty pool before throwing an exception
   maxWaitForConnection: 1s
@@ -34,6 +34,22 @@ database:
 
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
+
+# OAuth2 settings.
+oauth2:
+
+  # the client ID for your application
+  clientId: 936722153852-7ofdr2f84iv7uatb26vsli95hudj2caj.apps.googleusercontent.com
+
+  # registered client application ]credentials
+  clientSecret: client-secret-123
+
+  # the redirect uri to determines how authorization server sends a response to your app
+  redirectUrl: urn:ietf:wg:oauth:2.0:oob
+
+  # a space-delimited list of scopes that identify the resources that your application
+  # could access on the user's behalf
+  scope: profile
 
 server:
   rootPath: /api/*

@@ -26,6 +26,8 @@ public class BasicAuthenticator implements Authenticator<BasicCredentials, User>
 
     @Override
     public Optional<User> authenticate(BasicCredentials basicCredentials) throws AuthenticationException {
+        System.out.println("BASIC AUTHENTICATOR CALLED ....");
+
         if (credsSet.contains(basicCredentials.getPassword())) {
             return Optional.of(new User(basicCredentials.getUsername()));
         }

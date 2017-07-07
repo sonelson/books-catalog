@@ -26,6 +26,11 @@ public class BookCatalogConfiguration extends Configuration {
     @NotNull
     private DataSourceFactory database = new DataSourceFactory();
 
+    @Valid
+    @NotNull
+    @JsonProperty("oauth2")
+    private OAuth2Config oauth2Config = new OAuth2Config();
+
     @JsonProperty
     public String getTemplate() {
         return template;
@@ -55,4 +60,9 @@ public class BookCatalogConfiguration extends Configuration {
     public void setDataSourceFactory(DataSourceFactory dataSourceFactory) {
         this.database = dataSourceFactory;
     }
+
+    public OAuth2Config getOauth2Config() {
+        return oauth2Config;
+    }
+
 }

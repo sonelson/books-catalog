@@ -32,7 +32,7 @@ A successful build output will produce the fat JAR (located under project-root/b
 
 To run the server:
 
-    $ java -jar target/books-api-1.0-SNAPSHOT.jar server books-catalog.yml
+    $ java -jar target/books-api-1.0-SNAPSHOT.jar server book-catalog.yml
 
 To hit the API endpoint:
 

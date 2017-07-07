@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- *  Jersey resource class is associated with a author URI
+ * Jersey resource class is associated with a author URI
  *
  * @author solo
  */
@@ -34,7 +34,7 @@ public class AuthorResource {
 
     /**
      * Method looks for an author by id.
-     *
+     * <p>
      * The transaction boundary scope 'UnitOfWork' will automatically open a
      * session, begin a transaction, call findById, commit the transaction, and
      * finally close the session. If an exception is thrown, the transaction
@@ -42,7 +42,6 @@ public class AuthorResource {
      *
      * @param id the id of an author
      * @return Optional containing the found author or an empty Optional
-     *
      */
     @GET
     @Path("/{id}")
